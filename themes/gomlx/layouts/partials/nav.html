@@ -1,0 +1,78 @@
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="GoMLX home">
+      <img src="{{ "img/logo.jpeg" | relURL }}" class="logo-mark" alt="GoMLX logo" width="28" height="28" style="border-radius: 7px; object-fit: cover;">
+      <span class="nav-wordmark">GoMLX</span>
+      <span class="nav-version" id="gomlx-version" title="Latest Release">{{ .Site.Params.version }}</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {{ range .Site.Menus.main }}
+      <li>
+        <a href="{{ .URL }}" class="nav-link{{ if $.IsMenuCurrent "main" . }} is-active{{ end }}">
+          {{ .Name }}
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+
+    <div class="nav-actions">
+      <button class="nav-search-trigger" id="search-trigger" aria-label="Search">
+        {{ readFile "themes/gomlx/static/img/search.svg" | safeHTML }}
+        <span>Search</span>
+        <kbd>⌘K</kbd>
+      </button>
+
+      <a href="{{ .Site.Params.github }}" class="nav-github" target="_blank" rel="noopener" aria-label="GitHub" style="display: inline-flex; align-items: center; text-decoration: none;">
+        {{ readFile "themes/gomlx/static/img/github.svg" | safeHTML }}
+        <span id="nav-github-stars" style="margin-left: 6px; font-size: 0.825rem; font-weight: 600;"></span>
+      </a>
+
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        {{ readFile "themes/gomlx/static/img/sun.svg" | safeHTML }}
+        {{ readFile "themes/gomlx/static/img/moon.svg" | safeHTML }}
+      </button>
+
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Dynamically fetch GitHub repository stats and latest release
+  (function() {
+    const repoUrl = 'https://api.github.com/repos/gomlx/gomlx';
+    const formatNum = num => num >= 1000 ? (num / 1000).toFixed(1) + 'k' : num;
+
+    // Fetch Repository Stats (Stars, Forks)
+    fetch(repoUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data.stargazers_count !== undefined) {
+          const starsText = formatNum(data.stargazers_count);
+          const navStars = document.getElementById('nav-github-stars');
+          const stripStars = document.getElementById('strip-github-stars');
+          if (navStars) navStars.textContent = starsText;
+          if (stripStars) stripStars.textContent = starsText;
+        }
+        if (data.forks_count !== undefined) {
+          const stripForks = document.getElementById('strip-github-forks');
+          if (stripForks) stripForks.textContent = formatNum(data.forks_count);
+        }
+      }).catch(err => console.debug('Could not fetch repo stats:', err));
+
+    // Fetch Latest Release Version
+    fetch(repoUrl + '/releases/latest')
+      .then(res => res.json())
+      .then(data => {
+        if (data.tag_name) {
+          const navVersion = document.getElementById('gomlx-version');
+          const stripVersion = document.getElementById('strip-gomlx-version');
+          if (navVersion) navVersion.textContent = data.tag_name;
+          if (stripVersion) stripVersion.textContent = data.tag_name;
+        }
+      }).catch(err => console.debug('Could not fetch latest release:', err));
+  })();
+</script>

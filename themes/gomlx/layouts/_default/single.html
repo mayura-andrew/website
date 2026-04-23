@@ -1,0 +1,57 @@
+{{ define "main" }}
+<div class="docs-layout">
+  <aside class="docs-sidebar" role="navigation" aria-label="Documentation navigation">
+    {{ range .Site.Data.docsnav }}
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">{{ .title }}</div>
+      {{ range .pages }}
+      <a href="{{ .url | absURL }}" class="sidebar-link{{ if eq $.Permalink (.url | absURL) }} is-active{{ end }}">{{ .name }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+    {{ $curated := slice }}
+    {{ range .Site.Data.docsnav }}{{ range .pages }}{{ $curated = $curated | append (.url | absURL) }}{{ end }}{{ end }}
+    {{ $uncurated := slice }}
+    {{ range site.RegularPages }}
+      {{ if not (in $curated .Permalink) }}{{ $uncurated = $uncurated | append . }}{{ end }}
+    {{ end }}
+    {{ if $uncurated }}
+    {{ end }}
+  </aside>
+
+  <article class="docs-content">
+    <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>›</span>
+      {{ with .Parent }}<a href="{{ .RelPermalink }}">{{ .Title }}</a><span>›</span>{{ end }}
+      <span>{{ .Title }}</span>
+    </nav>
+    {{ with .Params.source }}
+    {{ end }}
+    <header class="docs-header">
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+    </header>
+    <div class="docs-body">{{ .Content }}</div>
+    {{ if .GitInfo }}
+    <div class="last-updated">Last updated {{ .GitInfo.AuthorDate | time.Format "January 2, 2006" }}</div>
+    {{ end }}
+    <nav class="docs-pagination" aria-label="Page navigation">
+      {{ with .PrevInSection }}
+      <a href="{{ .RelPermalink }}" class="pagination-card pagination-card--prev">
+        <div class="dir">← Previous</div><div class="title">{{ .Title }}</div>
+      </a>
+      {{ else }}<div></div>{{ end }}
+      {{ with .NextInSection }}
+      <a href="{{ .RelPermalink }}" class="pagination-card pagination-card--next">
+        <div class="dir">Next →</div><div class="title">{{ .Title }}</div>
+      </a>
+      {{ end }}
+    </nav>
+  </article>
+
+  <aside class="docs-toc" aria-label="On this page">
+    <div class="docs-toc-title">On this page</div>
+    {{ .TableOfContents }}
+  </aside>
+</div>
+{{ end }}
