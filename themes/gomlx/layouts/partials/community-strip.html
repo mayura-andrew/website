@@ -1,0 +1,39 @@
+<section class="community-strip">
+  <div class="container">
+    <div class="community-inner">
+      <div class="community-text">
+        <div class="section-label">Community</div>
+        <h2>Questions? Join the conversation.</h2>
+        <p>Ask on the <strong>#gomlx</strong> Slack channel, open a GitHub issue, or contribute an example. The library is actively maintained and the community is growing.</p>
+        <div class="community-links">
+          <a href="{{ $.Site.Params.slack }}" class="btn btn-secondary" target="_blank" rel="noopener">
+            {{ readFile "themes/gomlx/static/img/slack-community.svg" | safeHTML }}
+            Join #gomlx on Slack
+          </a>
+          <a href="{{ $.Site.Params.github }}" class="btn btn-secondary" target="_blank" rel="noopener">
+            {{ readFile "themes/gomlx/static/img/github-community.svg" | safeHTML }}
+            Star on GitHub
+          </a>
+        </div>
+      </div>
+      <div class="community-stats">
+        <div class="stat-card">
+          <span class="stat-number" id="strip-github-stars">--</span>
+          <span class="stat-label">GitHub stars</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="strip-github-forks">--</span>
+          <span class="stat-label">Forks</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="strip-gomlx-version">{{ $.Site.Params.version }}</span>
+          <span class="stat-label">Latest release</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">Apache 2</span>
+          <span class="stat-label">License</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
