@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — GoMLX{{ end }}</title>
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <meta property="og:title" content="{{ .Title }}">
-  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta property="og:description"
+    content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <link rel="canonical" href="{{ .Permalink }}">
-  <link rel="icon" type="image/jpeg" href="{{ "img/logo.jpeg" | relURL }}">
+  <link rel="icon" type="image/jpeg" href="{{ " img/logo.jpeg" | relURL }}">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet">
 
   {{ $mainCss := resources.Get "css/main.css" }}
   <link rel="stylesheet" href="{{ $mainCss.RelPermalink }}">
   {{ if not .IsHome }}
-    {{ $docsCss := resources.Get "css/docs.css" }}
-    <link rel="stylesheet" href="{{ $docsCss.RelPermalink }}">
+  {{ $docsCss := resources.Get "css/docs.css" }}
+  <link rel="stylesheet" href="{{ $docsCss.RelPermalink }}">
   {{ end }}
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{{ "img/favicon.svg" | relURL }}">
+  <link rel="icon" type="image/svg+xml" href="{{ " img/favicon.svg" | relURL }}">
 </head>
+
 <body>
+  <div style="background-color: #ff9800; color: #fff; text-align: center; padding: 10px; font-weight: bold;">
+    ⚠️🚧 This site is currently under construction. Documentation is actively being written
+    and expected to be released along with the next GoMLX release v0.28.0. 🚧⚠️
+  </div>
+
   {{ partial "nav.html" . }}
   <main>
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
-  <script>window.GomlxBaseUrl = "{{ "/" | relURL }}";</script>
+  <script>window.GomlxBaseUrl = "{{ " / " | relURL }}";</script>
   {{ $mainJs := resources.Get "js/main.js" }}
   {{ if $mainJs }}
   <script src="{{ $mainJs.RelPermalink }}"></script>
   {{ end }}
 </body>
+
 </html>
