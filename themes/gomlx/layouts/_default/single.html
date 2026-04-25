@@ -1,19 +1,20 @@
 {{ define "main" }}
 <div class="docs-layout">
   <aside class="docs-sidebar" role="navigation" aria-label="Documentation navigation">
-    {{ range .Site.Data.docsnav }}
+    {{ range hugo.Data.docsnav }}
     <div class="sidebar-section">
       <div class="sidebar-section-title">{{ .title }}</div>
       {{ range .pages }}
-      <a href="{{ .url | absURL }}" class="sidebar-link{{ if eq $.Permalink (.url | absURL) }} is-active{{ end }}">{{ .name }}</a>
+      <a href="{{ .url | absURL }}" class="sidebar-link{{ if eq $.Permalink (.url | absURL) }} is-active{{ end }}">{{
+        .name }}</a>
       {{ end }}
     </div>
     {{ end }}
     {{ $curated := slice }}
-    {{ range .Site.Data.docsnav }}{{ range .pages }}{{ $curated = $curated | append (.url | absURL) }}{{ end }}{{ end }}
+    {{ range hugo.Data.docsnav }}{{ range .pages }}{{ $curated = $curated | append (.url | absURL) }}{{ end }}{{ end }}
     {{ $uncurated := slice }}
     {{ range site.RegularPages }}
-      {{ if not (in $curated .Permalink) }}{{ $uncurated = $uncurated | append . }}{{ end }}
+    {{ if not (in $curated .Permalink) }}{{ $uncurated = $uncurated | append . }}{{ end }}
     {{ end }}
     {{ if $uncurated }}
     {{ end }}
@@ -38,12 +39,14 @@
     <nav class="docs-pagination" aria-label="Page navigation">
       {{ with .PrevInSection }}
       <a href="{{ .RelPermalink }}" class="pagination-card pagination-card--prev">
-        <div class="dir">← Previous</div><div class="title">{{ .Title }}</div>
+        <div class="dir">← Previous</div>
+        <div class="title">{{ .Title }}</div>
       </a>
       {{ else }}<div></div>{{ end }}
       {{ with .NextInSection }}
       <a href="{{ .RelPermalink }}" class="pagination-card pagination-card--next">
-        <div class="dir">Next →</div><div class="title">{{ .Title }}</div>
+        <div class="dir">Next →</div>
+        <div class="title">{{ .Title }}</div>
       </a>
       {{ end }}
     </nav>
